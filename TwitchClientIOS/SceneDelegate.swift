@@ -1,24 +1,47 @@
-//
-//  SceneDelegate.swift
-//  TwitchClientIOS
-//
-//  Created by Артем Климкин on 13/01/2020.
-//  Copyright © 2020 Artem Klimkin. All rights reserved.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    enum selectNC{
+        case allGames, fvStreamers
+    }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+        guard let windowScence = (scene as? UIWindowScene) else { return }
+        
+        window = UIWindow(frame: windowScence.coordinateSpace.bounds)
+        window?.windowScene = windowScence
+        window?.rootViewController = createTabBar()
+        window?.makeKeyAndVisible()
     }
+    
+    func createNC(controller: selectNC) -> UINavigationController{
+        switch controller {
+        case .allGames:
+            let searchVC = AllGamesVC()
+            searchVC.title = "All Games"
+            searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .mostViewed, tag: 0)
+            return UINavigationController(rootViewController: searchVC)
+        case .fvStreamers:
+            let favoritesVC = FavoritesVC()
+            favoritesVC.title = "Favorites"
+            favoritesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+            return UINavigationController(rootViewController: favoritesVC)
+        }
+    }
+    
+    func createTabBar() -> UITabBarController{
+        let tabBar = UITabBarController()
+        UITabBar.appearance().tintColor = .systemPurple
+        tabBar.viewControllers = [createNC(controller: .allGames), createNC(controller: .fvStreamers)]
+        return tabBar
+    }
+
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

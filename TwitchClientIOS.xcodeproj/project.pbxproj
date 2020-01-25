@@ -7,23 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D16F8F8523D388DC0045558A /* GamesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16F8F8423D388DC0045558A /* GamesCell.swift */; };
+		D16F8F8723D388F00045558A /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16F8F8623D388F00045558A /* ImageView.swift */; };
+		D16F8F8923D389030045558A /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16F8F8823D389030045558A /* Label.swift */; };
 		D1AE6DF423CC573D00860953 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AE6DF323CC573D00860953 /* AppDelegate.swift */; };
 		D1AE6DF623CC573D00860953 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AE6DF523CC573D00860953 /* SceneDelegate.swift */; };
-		D1AE6DF823CC573D00860953 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AE6DF723CC573D00860953 /* ViewController.swift */; };
-		D1AE6DFB23CC573D00860953 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1AE6DF923CC573D00860953 /* Main.storyboard */; };
 		D1AE6DFD23CC573F00860953 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1AE6DFC23CC573F00860953 /* Assets.xcassets */; };
 		D1AE6E0023CC573F00860953 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1AE6DFE23CC573F00860953 /* LaunchScreen.storyboard */; };
+		D1AE6E0823CC577A00860953 /* AllGamesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AE6E0723CC577A00860953 /* AllGamesVC.swift */; };
+		D1AE6E0A23CC66DB00860953 /* FavoritesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AE6E0923CC66DB00860953 /* FavoritesVC.swift */; };
+		D1B8FC9623D38BE000DA5F38 /* Games.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B8FC9523D38BE000DA5F38 /* Games.swift */; };
+		D1B8FC9823D38D2000DA5F38 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B8FC9723D38D2000DA5F38 /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D16F8F8423D388DC0045558A /* GamesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesCell.swift; sourceTree = "<group>"; };
+		D16F8F8623D388F00045558A /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		D16F8F8823D389030045558A /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		D1AE6DF023CC573D00860953 /* TwitchClientIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitchClientIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1AE6DF323CC573D00860953 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D1AE6DF523CC573D00860953 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D1AE6DF723CC573D00860953 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D1AE6DFA23CC573D00860953 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D1AE6DFC23CC573F00860953 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D1AE6DFF23CC573F00860953 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D1AE6E0123CC573F00860953 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D1AE6E0723CC577A00860953 /* AllGamesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGamesVC.swift; sourceTree = "<group>"; };
+		D1AE6E0923CC66DB00860953 /* FavoritesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesVC.swift; sourceTree = "<group>"; };
+		D1B8FC9523D38BE000DA5F38 /* Games.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Games.swift; sourceTree = "<group>"; };
+		D1B8FC9723D38D2000DA5F38 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +47,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D16F8F8A23D38A260045558A /* UIComponents */ = {
+			isa = PBXGroup;
+			children = (
+				D16F8F8423D388DC0045558A /* GamesCell.swift */,
+				D16F8F8623D388F00045558A /* ImageView.swift */,
+				D16F8F8823D389030045558A /* Label.swift */,
+			);
+			path = UIComponents;
+			sourceTree = "<group>";
+		};
 		D1AE6DE723CC573D00860953 = {
 			isa = PBXGroup;
 			children = (
@@ -58,13 +78,32 @@
 			children = (
 				D1AE6DF323CC573D00860953 /* AppDelegate.swift */,
 				D1AE6DF523CC573D00860953 /* SceneDelegate.swift */,
-				D1AE6DF723CC573D00860953 /* ViewController.swift */,
-				D1AE6DF923CC573D00860953 /* Main.storyboard */,
+				D1AE6E0923CC66DB00860953 /* FavoritesVC.swift */,
+				D1AE6E0723CC577A00860953 /* AllGamesVC.swift */,
+				D1B8FC9423D38BC400DA5F38 /* Model */,
+				D1B8FC9223D38BB100DA5F38 /* Managers */,
+				D16F8F8A23D38A260045558A /* UIComponents */,
 				D1AE6DFC23CC573F00860953 /* Assets.xcassets */,
 				D1AE6DFE23CC573F00860953 /* LaunchScreen.storyboard */,
 				D1AE6E0123CC573F00860953 /* Info.plist */,
 			);
 			path = TwitchClientIOS;
+			sourceTree = "<group>";
+		};
+		D1B8FC9223D38BB100DA5F38 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				D1B8FC9723D38D2000DA5F38 /* NetworkManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		D1B8FC9423D38BC400DA5F38 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D1B8FC9523D38BE000DA5F38 /* Games.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +166,6 @@
 			files = (
 				D1AE6E0023CC573F00860953 /* LaunchScreen.storyboard in Resources */,
 				D1AE6DFD23CC573F00860953 /* Assets.xcassets in Resources */,
-				D1AE6DFB23CC573D00860953 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +176,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1AE6DF823CC573D00860953 /* ViewController.swift in Sources */,
+				D1B8FC9823D38D2000DA5F38 /* NetworkManager.swift in Sources */,
+				D16F8F8723D388F00045558A /* ImageView.swift in Sources */,
+				D1AE6E0A23CC66DB00860953 /* FavoritesVC.swift in Sources */,
 				D1AE6DF423CC573D00860953 /* AppDelegate.swift in Sources */,
+				D1B8FC9623D38BE000DA5F38 /* Games.swift in Sources */,
 				D1AE6DF623CC573D00860953 /* SceneDelegate.swift in Sources */,
+				D1AE6E0823CC577A00860953 /* AllGamesVC.swift in Sources */,
+				D16F8F8923D389030045558A /* Label.swift in Sources */,
+				D16F8F8523D388DC0045558A /* GamesCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		D1AE6DF923CC573D00860953 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D1AE6DFA23CC573D00860953 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		D1AE6DFE23CC573F00860953 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -294,7 +330,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ArtemKlimkin.TwitchClientIOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -312,7 +348,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ArtemKlimkin.TwitchClientIOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
