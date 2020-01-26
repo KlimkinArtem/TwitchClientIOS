@@ -1,9 +1,10 @@
 import UIKit
 
-class AllGamesVC: UIViewController {
+class GamesVC: UIViewController {
 
     
     var collectionView: UICollectionView!
+    var idArray = [String]()
     var gamesArray = [String]()
     var boxArtUrlArray = [String]()
     
@@ -12,19 +13,10 @@ class AllGamesVC: UIViewController {
         view.backgroundColor = .systemBackground
         
         configureCollectionView()
-        
-        NetworkManager.shared.getAllGames { (games) in
-            for item in 0 ..< games.data.count{
-                self.gamesArray.append((games.data[item].name))
-                self.boxArtUrlArray.append(games.data[item].boxArtUrl)
-            }
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-        }
-        
-        
+        getGames()
     }
+    
+    
     
     func configureCollectionView(){
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCollectionViewFlowLayout())
@@ -51,6 +43,19 @@ class AllGamesVC: UIViewController {
         return layout
     }
     
+    func getGames(){
+        NetworkManager.shared.getGames { (games) in
+            for item in 0 ..< games.data.count{
+                self.gamesArray.append((games.data[item].name))
+                self.idArray.append(games.data[item].id)
+                self.boxArtUrlArray.append(games.data[item].boxArtUrl)
+            }
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
     func correctUrl(url: String) -> String{
         let oldUrl = url.replacingOccurrences(of: "{width}", with: "200")
         let newUrl = oldUrl.replacingOccurrences(of: "{height}", with: "200")
@@ -60,7 +65,7 @@ class AllGamesVC: UIViewController {
 }
 
 
-extension AllGamesVC: UICollectionViewDataSource, UICollectionViewDelegate{
+extension GamesVC: UICollectionViewDataSource, UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return gamesArray.count
     }
@@ -77,6 +82,14 @@ extension AllGamesVC: UICollectionViewDataSource, UICollectionViewDelegate{
         }
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.item != -1{
+            let streamersVC = StreamsVC(id: idArray[indexPath.item], name: gamesArray[indexPath.item])
+            streamersVC.title = gamesArray[indexPath.row]
+            navigationController?.pushViewController(streamersVC, animated: true)
+        }
     }
     
 }

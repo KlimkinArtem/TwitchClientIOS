@@ -15,9 +15,6 @@ class GamesCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func set(name: Games){
-        gameLabel.text = name.name
-    }
     
     private func configureGamesCell(){
         addSubview(gameImage)
@@ -36,7 +33,5 @@ class GamesCell: UICollectionViewCell {
             
             
         ])
-        
-        
     }
 }

@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func createNC(controller: selectNC) -> UINavigationController{
         switch controller {
         case .allGames:
-            let searchVC = AllGamesVC()
+            let searchVC = GamesVC()
             searchVC.title = "All Games"
             searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .mostViewed, tag: 0)
             return UINavigationController(rootViewController: searchVC)
