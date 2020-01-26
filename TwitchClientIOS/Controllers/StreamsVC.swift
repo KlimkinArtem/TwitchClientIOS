@@ -92,6 +92,8 @@ class StreamsVC: UIViewController {
         
         return newUrl
     }
+    
+
 }
 
 extension StreamsVC: UICollectionViewDataSource, UICollectionViewDelegate{
@@ -115,17 +117,19 @@ extension StreamsVC: UICollectionViewDataSource, UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if indexPath.item != -1{
-            guard let streamURL = URL(string: "https://player.twitch.tv/?channel=\(userNameArray[indexPath.row])") else{
-                return
-            }
-            let showVC = ShowVC(id: userIDArray[indexPath.row],
-                                name: userNameArray[indexPath.row],
-                                streamURL: streamURL,
-                                title: streamTitleArray[indexPath.row])
-            showVC.title = userNameArray[indexPath.row]
-            navigationController?.pushViewController(showVC, animated: true)
+        guard let streamURL = URL(string: "https://player.twitch.tv/?channel=\(userNameArray[indexPath.row])") else{
+            return
         }
+        
+        let showVC = ShowVC(id: userIDArray[indexPath.row],
+                            name: userNameArray[indexPath.row],
+                            streamURL: streamURL,
+                            title: streamTitleArray[indexPath.row])
+        
+        
+        showVC.title = userNameArray[indexPath.row]
+        navigationController?.pushViewController(showVC, animated: true)
+        
     }
     
 }

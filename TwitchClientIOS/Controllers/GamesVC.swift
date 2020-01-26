@@ -85,11 +85,11 @@ extension GamesVC: UICollectionViewDataSource, UICollectionViewDelegate{
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.item != -1{
-            let streamersVC = StreamsVC(id: idArray[indexPath.item], name: gamesArray[indexPath.item])
-            streamersVC.title = gamesArray[indexPath.row]
-            navigationController?.pushViewController(streamersVC, animated: true)
-        }
+        
+        let streamersVC = StreamsVC(id: idArray[indexPath.item], name: gamesArray[indexPath.item])
+        streamersVC.title = gamesArray[indexPath.row]
+        navigationController?.pushViewController(streamersVC, animated: true)
+        
     }
     
 }
