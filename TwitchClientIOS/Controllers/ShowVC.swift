@@ -12,17 +12,22 @@ import WebKit
 class ShowVC: UIViewController {
 
     var webView: WKWebView!
+    var chatWebView: WKWebView!
+    
     
     var userID: String!
     var username: String!
     var streamURL: URL!
     var streamTitle: String!
     var userImageURL: String!
-    var userImage = ImageView(frame: .zero)
-    var border = ImageView(frame: .zero)
-    var titleLabel = Label(textAligment: .left, fontSize: 12)
+    
+    var webContainerView = UIView()
+    var containerView = UIView()
+    var userProfileImage = ImageView(frame: .zero)
+    var streamTitleLabel = Label(textAligment: .left, fontSize: 12)
     var subscribeButton = Button(title: "Подписаться", color: .systemGreen)
     var unsubscribeButton = Button(title: "Отписаться", color: .systemRed)
+    var userProfileButton = Button(frame: .zero)
     
     init(id: String, name: String, streamURL: URL, title: String){
         super.init(nibName: nil, bundle: nil)
@@ -43,73 +48,15 @@ class ShowVC: UIViewController {
         
         view.backgroundColor = .systemBackground
         
-        configureWebView(url: streamURL)
+        
         getUser(id: userID)
         
+        
     }
     
     
-    func configureWebView(url: URL){
-        let frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 480)
-        webView = WKWebView(frame: frame, configuration: WKWebViewConfiguration())
-        let request = URLRequest(url: url)
-        webView.load(request)
-        view.addSubview(webView)
-    }
-    
-    func configureCustomCell(userImageURL: String){
-        
-        view.addSubview(border)
-        view.addSubview(userImage)
-        view.addSubview(titleLabel)
-        view.addSubview(subscribeButton)
-        view.addSubview(unsubscribeButton)
-        
-                
-        border.image = UIImage(named: "border1")
-        border.alpha = 0.5
-        
-        guard let url = URL(string: userImageURL) else{
-            return
-        }
-        
-        if let data = try? Data(contentsOf: url){
-            userImage.image = UIImage(data: data)
-        }
-        
-        titleLabel.text = streamTitle
-        
-        subscribeButton.addTarget(self, action: #selector(subscribe), for: .touchUpInside)
-        
-        unsubscribeButton.isHidden = true
-        
-        NSLayoutConstraint.activate([
-            userImage.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 12),
-            userImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            userImage.heightAnchor.constraint(equalToConstant: 80),
-            userImage.widthAnchor.constraint(equalToConstant: 80),
-            
-            border.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 5),
-            border.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
-            border.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -2),
-            border.bottomAnchor.constraint(equalTo: userImage.bottomAnchor, constant: 7),
-            
-            titleLabel.topAnchor.constraint(equalTo: userImage.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: userImage.trailingAnchor, constant: 10),
-            titleLabel.trailingAnchor.constraint(equalTo: border.trailingAnchor, constant: -10),
-            
-            subscribeButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            subscribeButton.leadingAnchor.constraint(equalTo: userImage.trailingAnchor, constant: 10),
-            subscribeButton.trailingAnchor.constraint(equalTo: border.trailingAnchor, constant: -10),
-            subscribeButton.bottomAnchor.constraint(equalTo: userImage.bottomAnchor),
-
-            unsubscribeButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            unsubscribeButton.leadingAnchor.constraint(equalTo: userImage.trailingAnchor, constant: 10),
-            unsubscribeButton.trailingAnchor.constraint(equalTo: border.trailingAnchor, constant: -10),
-            unsubscribeButton.bottomAnchor.constraint(equalTo: userImage.bottomAnchor)
-        ])
-        
-        
+    @objc func getUserProfile(){
+        print(#function)
     }
     
     @objc func subscribe(){
@@ -126,14 +73,179 @@ class ShowVC: UIViewController {
         subscribeButton.isHidden = false
         unsubscribeButton.isHidden = true
     }
-    
-
 
     func getUser(id: String){
         NetworkManager.shared.getUser(id: id) { (user) in
-            DispatchQueue.main.async {
-                self.configureCustomCell(userImageURL: user.data[0].profileImageUrl)
+            
+            switch user{
+            case .success(let user):
+                DispatchQueue.main.async {
+                    self.userImageURL = user.data[0].profileImageUrl
+                    self.invokeConfigure()
+                }
+            case .failure(let error):
+                print(error.rawValue)
             }
+            
+            
         }
     }
+}
+
+
+
+
+
+
+extension ShowVC{
+    
+    func invokeConfigure(){
+        configureWebView()
+        configureContainerView()
+        configureUserImage(userImageURL: userImageURL)
+        configureUserProfileButton()
+        configureStreamTitle()
+        configureSubscribeButton()
+        configureUnsubscribeButton()
+//        configureWebContainerView()
+//        configureChatWebView()
+    }
+    
+    func configureWebView(){
+        let frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 480)
+        webView = WKWebView(frame: frame, configuration: WKWebViewConfiguration())
+        let request = URLRequest(url: streamURL)
+        webView.load(request)
+        view.addSubview(webView)
+    }
+    
+    func configureContainerView(){
+        view.addSubview(containerView)
+        
+        containerView.backgroundColor = .systemGray4
+        containerView.layer.cornerRadius = 10
+        containerView.layer.borderWidth = 2
+        containerView.layer.borderColor = UIColor.white.cgColor
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 5),
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5 ),
+            containerView.heightAnchor.constraint(equalToConstant: 104)
+        ])
+    }
+    
+    func configureUserImage(userImageURL: String){
+        containerView.addSubview(userProfileImage)
+        
+        guard let url = URL(string: userImageURL) else{
+            return
+        }
+        
+        if let data = try? Data(contentsOf: url){
+            userProfileImage.image = UIImage(data: data)
+        }
+        
+        
+        NSLayoutConstraint.activate([
+            userProfileImage.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
+            userProfileImage.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
+            userProfileImage.heightAnchor.constraint(equalToConstant: 80),
+            userProfileImage.widthAnchor.constraint(equalToConstant: 80)
+        ])
+    }
+    
+    func configureUserProfileButton(){
+        view.addSubview(userProfileButton)
+        
+        userProfileButton.addTarget(self, action: #selector(getUserProfile), for: .touchUpInside)
+
+        NSLayoutConstraint.activate([
+            userProfileButton.topAnchor.constraint(equalTo: userProfileImage.topAnchor),
+            userProfileButton.leadingAnchor.constraint(equalTo: userProfileImage.leadingAnchor),
+            userProfileButton.trailingAnchor.constraint(equalTo: userProfileImage.trailingAnchor),
+            userProfileButton.bottomAnchor.constraint(equalTo: userProfileImage.bottomAnchor)
+        ])
+        
+    }
+    
+
+    func configureStreamTitle(){
+        containerView.addSubview(streamTitleLabel)
+        
+        streamTitleLabel.text = streamTitle
+        
+        
+        
+        NSLayoutConstraint.activate([
+            streamTitleLabel.topAnchor.constraint(equalTo: userProfileImage.topAnchor, constant: -20),
+            streamTitleLabel.leadingAnchor.constraint(equalTo: userProfileImage.trailingAnchor, constant: 10),
+            streamTitleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10)
+        ])
+    }
+    
+    func configureSubscribeButton(){
+        containerView.addSubview(subscribeButton)
+        
+        subscribeButton.addTarget(self, action: #selector(subscribe), for: .touchUpInside)
+        
+        unsubscribeButton.isHidden = true
+        
+        NSLayoutConstraint.activate([
+            subscribeButton.topAnchor.constraint(equalTo: streamTitleLabel.bottomAnchor, constant: 10),
+            subscribeButton.leadingAnchor.constraint(equalTo: userProfileImage.trailingAnchor, constant: 10),
+            subscribeButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
+            subscribeButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -12),
+        ])
+    }
+    
+    func configureUnsubscribeButton(){
+        containerView.addSubview(unsubscribeButton)
+        
+        unsubscribeButton.addTarget(self, action: #selector(unsubscribe), for: .touchUpInside)
+        
+        
+        NSLayoutConstraint.activate([
+            unsubscribeButton.topAnchor.constraint(equalTo: streamTitleLabel.bottomAnchor, constant: 10),
+            unsubscribeButton.leadingAnchor.constraint(equalTo: userProfileImage.trailingAnchor, constant: 10),
+            unsubscribeButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
+            unsubscribeButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -12),
+        ])
+    }
+    
+    
+    func configureWebContainerView(){
+        view.addSubview(webContainerView)
+        
+        webContainerView.backgroundColor = .systemBackground
+        webContainerView.layer.cornerRadius = 10
+        webContainerView.layer.borderWidth = 2
+        webContainerView.layer.borderColor = UIColor.white.cgColor
+        webContainerView.translatesAutoresizingMaskIntoConstraints = false
+        
+
+        NSLayoutConstraint.activate([
+            webContainerView.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 5),
+            webContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            webContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
+            webContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -90)
+        ])
+    }
+    
+    
+    
+    func configureChatWebView(){
+        guard let url = URL(string: "https://www.twitch.tv/embed/\(username!)/chat") else {
+            return
+        }
+        
+        let frame = CGRect(x: 0, y: 0, width: webContainerView.bounds.width, height: webContainerView.bounds.height)
+        chatWebView = WKWebView(frame: frame, configuration: WKWebViewConfiguration())
+        let request = URLRequest(url: url)
+        chatWebView.load(request)
+        webContainerView.addSubview(chatWebView)
+    }
+    
 }

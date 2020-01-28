@@ -17,6 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScence.coordinateSpace.bounds)
         window?.windowScene = windowScence
         window?.rootViewController = createTabBar()
+        configureTintColor()
         window?.makeKeyAndVisible()
     }
     
@@ -37,9 +38,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func createTabBar() -> UITabBarController{
         let tabBar = UITabBarController()
-        UITabBar.appearance().tintColor = .systemPurple
+        
+        
         tabBar.viewControllers = [createNC(controller: .allGames), createNC(controller: .fvStreamers)]
         return tabBar
+    }
+    
+    func configureTintColor(){
+        UITabBar.appearance().tintColor = .systemPurple
+        
+        let navBarAppearance = UINavigationBar.appearance()
+        navBarAppearance.tintColor = .systemPurple
+        navBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemPurple]
     }
 
 

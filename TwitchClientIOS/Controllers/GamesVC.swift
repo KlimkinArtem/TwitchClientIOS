@@ -12,6 +12,7 @@ class GamesVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
+        
         configureCollectionView()
         getGames()
     }
@@ -44,15 +45,23 @@ class GamesVC: UIViewController {
     }
     
     func getGames(){
-        NetworkManager.shared.getGames { (games) in
-            for item in 0 ..< games.data.count{
-                self.gamesArray.append((games.data[item].name))
-                self.idArray.append(games.data[item].id)
-                self.boxArtUrlArray.append(games.data[item].boxArtUrl)
+        NetworkManager.shared.getGames { (result) in
+            
+            switch result{
+            case .success(let games):
+                for item in 0 ..< games.data.count{
+                    self.gamesArray.append((games.data[item].name))
+                    self.idArray.append(games.data[item].id)
+                    self.boxArtUrlArray.append(games.data[item].boxArtUrl)
+                }
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            case .failure(let error):
+                print(error.rawValue)
             }
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
+            
+            
         }
     }
     

@@ -71,17 +71,25 @@ class StreamsVC: UIViewController {
     func getStreams(){
         
         NetworkManager.shared.getStreams(id: gameID) { (streamers) in
-            for item in 0 ..< streamers.data.count{
-                self.userNameArray.append(streamers.data[item].userName)
-                self.thumbnailArray.append(streamers.data[item].thumbnailUrl)
-                self.viewerCountArray.append(streamers.data[item].viewerCount)
-                
-                self.userIDArray.append(streamers.data[item].userId)
-                self.streamTitleArray.append(streamers.data[item].title)
+            
+            switch streamers{
+            case .success(let streamers):
+                for item in 0 ..< streamers.data.count{
+                    self.userNameArray.append(streamers.data[item].userName)
+                    self.thumbnailArray.append(streamers.data[item].thumbnailUrl)
+                    self.viewerCountArray.append(streamers.data[item].viewerCount)
+                    
+                    self.userIDArray.append(streamers.data[item].userId)
+                    self.streamTitleArray.append(streamers.data[item].title)
+                }
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            case .failure(let error):
+                print(error.rawValue)
             }
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
+            
+
         }
     
     }

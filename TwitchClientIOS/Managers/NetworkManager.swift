@@ -18,9 +18,10 @@ class NetworkManager{
     private let clientID = "1we71oc0so0wr4ouztap8jw6z6w3ey"
     
 
-    func getGames(completed: @escaping(GamesData) -> Void){
+    func getGames(completed: @escaping(Result<GamesData, ErrorMessage>) -> Void){
 
         guard let url = URL(string: "https://api.twitch.tv/helix/games/top?first=100") else {
+            completed(.failure(.unableToComplete))
             return
         }
         
@@ -30,10 +31,12 @@ class NetworkManager{
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completed(.failure(.invalidResponse))
                 return
             }
             
             guard let data = data else{
+                completed(.failure(.invalidData))
                 return
             }
             
@@ -41,16 +44,18 @@ class NetworkManager{
                 let decode = JSONDecoder()
                 decode.keyDecodingStrategy = .convertFromSnakeCase
                 let games = try decode.decode(GamesData.self, from: data)
-                completed(games)
+                completed(.success(games))
             }catch let error{
+                completed(.failure(.invalidData))
                 print(error)
             }
         }.resume()
         
     }
     
-    func getStreams(id: String, completed: @escaping(StreamsData) -> Void){
+    func getStreams(id: String, completed: @escaping(Result<StreamsData, ErrorMessage>) -> Void){
         guard let url = URL(string: "https://api.twitch.tv/helix/streams?game_id=\(id)&first=100&language=ru") else{
+            completed(.failure(.unableToComplete))
             return
         }
         
@@ -62,11 +67,12 @@ class NetworkManager{
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completed(.failure(.invalidResponse))
                 return
             }
             
             guard let data = data else{
-                print("data")
+                completed(.failure(.invalidData))
                 return
             }
             
@@ -74,16 +80,18 @@ class NetworkManager{
                 let decode = JSONDecoder()
                 decode.keyDecodingStrategy = .convertFromSnakeCase
                 let streamers = try decode.decode(StreamsData.self, from: data)
-                completed(streamers)
+                completed(.success(streamers))
             }catch let error{
+                completed(.failure(.invalidData))
                 print(error)
             }
         }.resume()
     }
     
     
-    func getUser(id: String, completed: @escaping(UserData) -> Void){
+    func getUser(id: String, completed: @escaping(Result<UserData, ErrorMessage>) -> Void){
         guard let url = URL(string: "https://api.twitch.tv/helix/users?id=\(id)") else{
+            completed(.failure(.unableToComplete))
             return
         }
         
@@ -95,11 +103,12 @@ class NetworkManager{
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completed(.failure(.invalidResponse))
                 return
             }
             
             guard let data = data else{
-                print("data")
+                completed(.failure(.invalidData))
                 return
             }
             
@@ -107,8 +116,9 @@ class NetworkManager{
                 let decode = JSONDecoder()
                 decode.keyDecodingStrategy = .convertFromSnakeCase
                 let user = try decode.decode(UserData.self, from: data)
-                completed(user)
+                completed(.success(user))
             }catch let error{
+                completed(.failure(.invalidData))
                 print(error)
             }
         }.resume()
