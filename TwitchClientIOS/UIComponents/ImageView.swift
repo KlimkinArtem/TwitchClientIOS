@@ -16,6 +16,6 @@ class ImageView: UIImageView {
         clipsToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
         
-        layer.cornerRadius = 10
+        layer.cornerRadius = 5
     }
 }

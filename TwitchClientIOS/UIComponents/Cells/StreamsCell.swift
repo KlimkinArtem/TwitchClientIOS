@@ -15,14 +15,34 @@ class StreamsCell: UICollectionViewCell {
     let userNameLabel = Label(textAligment: .center, fontSize: 16)
     let gameNameLabel = Label(textAligment: .center, fontSize: 12)
 
+    var containerView = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        configureContainerView()
         configureStreamsCell()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureContainerView(){
+        addSubview(containerView)
+        
+        containerView.backgroundColor = .systemGray5
+        containerView.layer.cornerRadius = 10
+        containerView.layer.borderWidth = 2
+        containerView.layer.borderColor = UIColor.white.cgColor
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 8)
+        ])
     }
     
     private func configureStreamsCell(){
@@ -33,9 +53,9 @@ class StreamsCell: UICollectionViewCell {
 
         
         NSLayoutConstraint.activate([
-            thumbnailImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            thumbnailImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            thumbnailImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            thumbnailImage.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
+            thumbnailImage.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
+            thumbnailImage.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
             thumbnailImage.heightAnchor.constraint(equalToConstant: 300),
             
             userNameLabel.topAnchor.constraint(equalTo: thumbnailImage.bottomAnchor, constant: 12),

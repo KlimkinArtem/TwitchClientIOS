@@ -117,6 +117,7 @@ extension StreamsVC: UICollectionViewDataSource, UICollectionViewDelegate{
         if let data = try? Data(contentsOf: thumbnailURL){
             cell.thumbnailImage.image = UIImage(data: data)
         }
+        
 
         cell.userNameLabel.text = "\(userNameArray[indexPath.row]) | Viewrs: \(viewerCountArray[indexPath.row])"
         cell.gameNameLabel.text = gameName
@@ -125,9 +126,7 @@ extension StreamsVC: UICollectionViewDataSource, UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let streamURL = URL(string: "https://player.twitch.tv/?channel=\(userNameArray[indexPath.row])") else{
-            return
-        }
+        let streamURL = "https://player.twitch.tv/?channel=\(userNameArray[indexPath.row])"
         
         let showVC = ShowVC(id: userIDArray[indexPath.row],
                             name: userNameArray[indexPath.row],

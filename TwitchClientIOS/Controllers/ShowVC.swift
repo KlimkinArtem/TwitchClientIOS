@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import CoreData
 
 class ShowVC: UIViewController {
 
@@ -17,7 +18,7 @@ class ShowVC: UIViewController {
     
     var userID: String!
     var username: String!
-    var streamURL: URL!
+    var streamURL: String!
     var streamTitle: String!
     var userImageURL: String!
     
@@ -29,7 +30,7 @@ class ShowVC: UIViewController {
     var unsubscribeButton = Button(title: "Отписаться", color: .systemRed)
     var userProfileButton = Button(frame: .zero)
     
-    init(id: String, name: String, streamURL: URL, title: String){
+    init(id: String, name: String, streamURL: String, title: String){
         super.init(nibName: nil, bundle: nil)
         userID = id
         self.streamURL = streamURL
@@ -51,7 +52,10 @@ class ShowVC: UIViewController {
         
         getUser(id: userID)
         
-        
+        if checkSubscribeUser(){
+            subscribeButton.isHidden = true
+            unsubscribeButton.isHidden = false
+        }
     }
     
     
@@ -64,12 +68,18 @@ class ShowVC: UIViewController {
         subscribeButton.isHidden = true
         unsubscribeButton.isHidden = false
         
+        
+        addUser()
+        printData()
+        
         unsubscribeButton.addTarget(self, action: #selector(unsubscribe), for: .touchUpInside)
     }
     
     @objc func unsubscribe(){
         print(#function)
-        
+        deleteUser()
+        printData()
+        print(checkSubscribeUser())
         subscribeButton.isHidden = false
         unsubscribeButton.isHidden = true
     }
@@ -93,8 +103,111 @@ class ShowVC: UIViewController {
 }
 
 
+extension ShowVC {
+    
+    func addUser(){
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else{
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let userEntity = NSEntityDescription.entity(forEntityName: "Streamers", in: managedContext)!
+        
+        let user = NSManagedObject(entity: userEntity, insertInto: managedContext)
+        
+        print(username!)
+        user.setValue(username!, forKey: "username")
+        user.setValue(streamURL!, forKey: "streamURL")
+        user.setValue(userImageURL!, forKey: "imageURL")
+        
+        
+        do{
+            try managedContext.save()
+        }catch let error as NSError{
+            print("\(error) , \(error.userInfo)")
+        }
+        
+        print("Complete")
+    }
+    
+    func printData(){
+        let appDelegate = AppDelegate()
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Streamers")
 
-
+        do{
+            let result = try managedContext.fetch(fetchRequest)
+            for data in result as! [NSManagedObject]{
+                print(data.value(forKey: "username") as? String)
+                print(data.value(forKey: "streamURL") as? String)
+                print(data.value(forKey: "imageURL") as? String)
+            }
+        }catch{
+            print("failed")
+        }
+    }
+    
+    func checkSubscribeUser() -> Bool{
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else{
+            return false
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Streamers")
+        
+        fetchRequest.predicate = NSPredicate(format: "username = %@", username!)
+        
+        do{
+            let result = try managedContext.fetch(fetchRequest)
+            
+            for data in result as! [NSManagedObject]{
+                let user = data.value(forKey: "username") as? String
+                if !user!.isEmpty{
+                    return true
+                }
+            }
+        }catch{
+            print("error")
+        }
+        
+        return false
+    }
+    
+    func deleteUser(){
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else{
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Streamers")
+        
+        fetchRequest.predicate = NSPredicate(format: "username = %@", username!)
+        
+        do{
+            let result = try managedContext.fetch(fetchRequest)
+            
+            let objectToDelete = result[0] as! NSManagedObject
+            managedContext.delete(objectToDelete)
+            
+            do{
+                try managedContext.save()
+            }catch{
+                print("Error")
+            }
+            
+        }catch{
+            print("error")
+        }
+        
+        
+        
+    }
+}
 
 
 extension ShowVC{
@@ -114,7 +227,11 @@ extension ShowVC{
     func configureWebView(){
         let frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - 480)
         webView = WKWebView(frame: frame, configuration: WKWebViewConfiguration())
-        let request = URLRequest(url: streamURL)
+        
+        guard let url = URL(string: streamURL) else {
+            return
+        }
+        let request = URLRequest(url: url)
         webView.load(request)
         view.addSubview(webView)
     }
@@ -122,7 +239,7 @@ extension ShowVC{
     func configureContainerView(){
         view.addSubview(containerView)
         
-        containerView.backgroundColor = .systemGray4
+        containerView.backgroundColor = .systemGray5
         containerView.layer.cornerRadius = 10
         containerView.layer.borderWidth = 2
         containerView.layer.borderColor = UIColor.white.cgColor
@@ -191,7 +308,12 @@ extension ShowVC{
         
         subscribeButton.addTarget(self, action: #selector(subscribe), for: .touchUpInside)
         
-        unsubscribeButton.isHidden = true
+        if !checkSubscribeUser(){
+            unsubscribeButton.isHidden = true
+        }else{
+            unsubscribeButton.isHidden = false
+            subscribeButton.isHidden = true
+        }
         
         NSLayoutConstraint.activate([
             subscribeButton.topAnchor.constraint(equalTo: streamTitleLabel.bottomAnchor, constant: 10),
@@ -219,9 +341,7 @@ extension ShowVC{
     func configureWebContainerView(){
         view.addSubview(webContainerView)
         
-        webContainerView.backgroundColor = .systemBackground
-        webContainerView.layer.cornerRadius = 10
-        webContainerView.layer.borderWidth = 2
+        webContainerView.backgroundColor = .systemBlue
         webContainerView.layer.borderColor = UIColor.white.cgColor
         webContainerView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -249,3 +369,5 @@ extension ShowVC{
     }
     
 }
+
+
