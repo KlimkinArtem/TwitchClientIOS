@@ -49,13 +49,7 @@ class ShowVC: UIViewController {
         
         view.backgroundColor = .systemBackground
         
-        
         getUser(id: userID)
-        
-        if checkSubscribeUser(){
-            subscribeButton.isHidden = true
-            unsubscribeButton.isHidden = false
-        }
     }
     
     
@@ -70,7 +64,6 @@ class ShowVC: UIViewController {
         
         
         addUser()
-        printData()
         
         unsubscribeButton.addTarget(self, action: #selector(unsubscribe), for: .touchUpInside)
     }
@@ -78,8 +71,7 @@ class ShowVC: UIViewController {
     @objc func unsubscribe(){
         print(#function)
         deleteUser()
-        printData()
-        print(checkSubscribeUser())
+        
         subscribeButton.isHidden = false
         unsubscribeButton.isHidden = true
     }
@@ -100,11 +92,7 @@ class ShowVC: UIViewController {
             
         }
     }
-}
 
-
-extension ShowVC {
-    
     func addUser(){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else{
             return
@@ -119,7 +107,7 @@ extension ShowVC {
         user.setValue(username!, forKey: "username")
         user.setValue(streamURL!, forKey: "streamURL")
         user.setValue(userImageURL!, forKey: "imageURL")
-        
+        user.setValue(userID!, forKey: "id")
         
         do{
             try managedContext.save()
@@ -130,24 +118,6 @@ extension ShowVC {
         print("Complete")
     }
     
-    func printData(){
-        let appDelegate = AppDelegate()
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Streamers")
-
-        do{
-            let result = try managedContext.fetch(fetchRequest)
-            for data in result as! [NSManagedObject]{
-                print(data.value(forKey: "username") as? String)
-                print(data.value(forKey: "streamURL") as? String)
-                print(data.value(forKey: "imageURL") as? String)
-            }
-        }catch{
-            print("failed")
-        }
-    }
     
     func checkSubscribeUser() -> Bool{
         
@@ -203,9 +173,6 @@ extension ShowVC {
         }catch{
             print("error")
         }
-        
-        
-        
     }
 }
 

@@ -12,7 +12,7 @@ class StreamsCell: UICollectionViewCell {
     
     static let reuseID = "StreamsCell"
     let thumbnailImage = ImageView(frame: .zero)
-    let userNameLabel = Label(textAligment: .center, fontSize: 16)
+    let usernameLabel = Label(textAligment: .center, fontSize: 16)
     let gameNameLabel = Label(textAligment: .center, fontSize: 12)
 
     var containerView = UIView()
@@ -37,6 +37,7 @@ class StreamsCell: UICollectionViewCell {
         containerView.layer.borderColor = UIColor.white.cgColor
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
+        
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
@@ -48,7 +49,7 @@ class StreamsCell: UICollectionViewCell {
     private func configureStreamsCell(){
         
         addSubview(thumbnailImage)
-        addSubview(userNameLabel)
+        addSubview(usernameLabel)
         addSubview(gameNameLabel)
 
         
@@ -58,14 +59,14 @@ class StreamsCell: UICollectionViewCell {
             thumbnailImage.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
             thumbnailImage.heightAnchor.constraint(equalToConstant: 300),
             
-            userNameLabel.topAnchor.constraint(equalTo: thumbnailImage.bottomAnchor, constant: 12),
-            userNameLabel.leadingAnchor.constraint(equalTo: thumbnailImage.leadingAnchor, constant: 8),
-            userNameLabel.heightAnchor.constraint(equalToConstant: 16),
+            usernameLabel.topAnchor.constraint(equalTo: thumbnailImage.bottomAnchor, constant: 12),
+            usernameLabel.leadingAnchor.constraint(equalTo: thumbnailImage.leadingAnchor, constant: 8),
+            usernameLabel.heightAnchor.constraint(equalToConstant: 16),
             
             
-            gameNameLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 12),
-            gameNameLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor, constant: 0),
-            gameNameLabel.trailingAnchor.constraint(equalTo: userNameLabel.trailingAnchor, constant: -8),
+            gameNameLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 12),
+            gameNameLabel.leadingAnchor.constraint(equalTo: usernameLabel.leadingAnchor, constant: 0),
+            gameNameLabel.trailingAnchor.constraint(equalTo: usernameLabel.trailingAnchor, constant: -8),
             gameNameLabel.heightAnchor.constraint(equalToConstant: 16),
             gameNameLabel.widthAnchor.constraint(equalToConstant: 260)
             

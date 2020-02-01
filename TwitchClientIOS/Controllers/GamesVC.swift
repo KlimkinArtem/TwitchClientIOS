@@ -35,11 +35,11 @@ class GamesVC: UIViewController {
         let padding: CGFloat = 12
         let minimumItemSpacing: CGFloat = 10
         let avalibleWidth = width - (padding * 2) - (minimumItemSpacing * 2)
-        let itemWigth = avalibleWidth / 2
+        let itemWidth = avalibleWidth / 2
         
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-        layout.itemSize = CGSize(width: itemWigth, height: itemWigth + 40)
+        layout.itemSize = CGSize(width: itemWidth, height: itemWidth + 40)
         
         return layout
     }

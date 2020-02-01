@@ -14,6 +14,7 @@
 		D16F8F8523D388DC0045558A /* GamesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16F8F8423D388DC0045558A /* GamesCell.swift */; };
 		D16F8F8723D388F00045558A /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16F8F8623D388F00045558A /* ImageView.swift */; };
 		D16F8F8923D389030045558A /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16F8F8823D389030045558A /* Label.swift */; };
+		D1804F1F23E53A31008DCA17 /* FavoritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1804F1E23E53A31008DCA17 /* FavoritesCell.swift */; };
 		D1AE6DF423CC573D00860953 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AE6DF323CC573D00860953 /* AppDelegate.swift */; };
 		D1AE6DF623CC573D00860953 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AE6DF523CC573D00860953 /* SceneDelegate.swift */; };
 		D1AE6DFD23CC573F00860953 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1AE6DFC23CC573F00860953 /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 		D16F8F8423D388DC0045558A /* GamesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesCell.swift; sourceTree = "<group>"; };
 		D16F8F8623D388F00045558A /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		D16F8F8823D389030045558A /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
+		D1804F1E23E53A31008DCA17 /* FavoritesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCell.swift; sourceTree = "<group>"; };
 		D1AE6DF023CC573D00860953 /* TwitchClientIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitchClientIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1AE6DF323CC573D00860953 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D1AE6DF523CC573D00860953 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			children = (
 				D16F8F8423D388DC0045558A /* GamesCell.swift */,
 				D1EACDC623DD192D00CFC819 /* StreamsCell.swift */,
+				D1804F1E23E53A31008DCA17 /* FavoritesCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 				D1EACDC723DD192D00CFC819 /* StreamsCell.swift in Sources */,
 				D116EEBA23DFAEC80082428B /* BodyLabel.swift in Sources */,
 				D1EACDBC23DD04F200CFC819 /* StreamsVC.swift in Sources */,
+				D1804F1F23E53A31008DCA17 /* FavoritesCell.swift in Sources */,
 				D1EACDC923DD356900CFC819 /* ShowVC.swift in Sources */,
 				D1EACDC223DD14D900CFC819 /* Streams.swift in Sources */,
 				D1AE6DF623CC573D00860953 /* SceneDelegate.swift in Sources */,
@@ -382,7 +386,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ArtemKlimkin.TwitchClientIOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -400,7 +404,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ArtemKlimkin.TwitchClientIOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

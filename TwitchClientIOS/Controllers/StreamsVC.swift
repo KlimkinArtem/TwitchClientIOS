@@ -14,7 +14,7 @@ class StreamsVC: UIViewController {
     var gameName: String!
     var collectionView: UICollectionView!
     
-    var userNameArray: [String] = []
+    var usernameArray: [String] = []
     var thumbnailArray: [String] = []
     var viewerCountArray: [Int] = []
     
@@ -55,17 +55,32 @@ class StreamsVC: UIViewController {
     
     
     func createCollectionViewFlowLayout() -> UICollectionViewFlowLayout{
-        let width = view.bounds.width
-        let padding: CGFloat = 12
-        let minimumItemSpacing: CGFloat = 10
-        let avalibleWidth = width - (padding * 2) - (minimumItemSpacing * 2)
-        let itemWigth = avalibleWidth
         
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: itemWigth, height: itemWigth)
+        
+        if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad{
+            let width = view.bounds.width
+            let padding: CGFloat = 12
+            let minimumItemSpacing: CGFloat = 10
+            let avalibleWidth = width - (padding * 2) - (minimumItemSpacing * 2)
+            let itemWidth = avalibleWidth
+            
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            layout.itemSize = CGSize(width: itemWidth, height: itemWidth - 400)
+            
+        }else{
+            let width = view.bounds.width
+            let padding: CGFloat = 12
+            let minimumItemSpacing: CGFloat = 10
+            let avalibleWidth = width - (padding * 2) - (minimumItemSpacing * 2)
+            let itemWidth = avalibleWidth
+            
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
+        }
         
         return layout
+        
     }
     
     func getStreams(){
@@ -75,7 +90,7 @@ class StreamsVC: UIViewController {
             switch streamers{
             case .success(let streamers):
                 for item in 0 ..< streamers.data.count{
-                    self.userNameArray.append(streamers.data[item].userName)
+                    self.usernameArray.append(streamers.data[item].userName)
                     self.thumbnailArray.append(streamers.data[item].thumbnailUrl)
                     self.viewerCountArray.append(streamers.data[item].viewerCount)
                     
@@ -106,7 +121,7 @@ class StreamsVC: UIViewController {
 
 extension StreamsVC: UICollectionViewDataSource, UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return userNameArray.count
+        return usernameArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -119,22 +134,22 @@ extension StreamsVC: UICollectionViewDataSource, UICollectionViewDelegate{
         }
         
 
-        cell.userNameLabel.text = "\(userNameArray[indexPath.row]) | Viewrs: \(viewerCountArray[indexPath.row])"
+        cell.usernameLabel.text = "\(usernameArray[indexPath.row]) | Viewrs: \(viewerCountArray[indexPath.row])"
         cell.gameNameLabel.text = gameName
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let streamURL = "https://player.twitch.tv/?channel=\(userNameArray[indexPath.row])"
+        let streamURL = "https://player.twitch.tv/?channel=\(usernameArray[indexPath.row])"
         
         let showVC = ShowVC(id: userIDArray[indexPath.row],
-                            name: userNameArray[indexPath.row],
+                            name: usernameArray[indexPath.row],
                             streamURL: streamURL,
                             title: streamTitleArray[indexPath.row])
         
         
-        showVC.title = userNameArray[indexPath.row]
+        showVC.title = usernameArray[indexPath.row]
         navigationController?.pushViewController(showVC, animated: true)
         
     }
